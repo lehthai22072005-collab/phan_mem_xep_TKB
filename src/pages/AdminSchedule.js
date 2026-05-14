@@ -95,7 +95,14 @@ const AdminSchedule = () => {
         </h2>
 
         {/* Thống kê nhanh */}
-        <div style={{ display: "flex", gap: "20px", marginBottom: "30px" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            marginBottom: "30px",
+            flexWrap: "wrap",
+          }}
+        >
           <div style={cardStyle}>
             <strong>Tổng số lịch:</strong> {schedules.length}
           </div>
@@ -122,7 +129,10 @@ const AdminSchedule = () => {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
+                gridTemplateColumns:
+                  window.innerWidth < 768
+                    ? "1fr"
+                    : "1fr 1fr 1fr",
                 gap: "15px",
               }}
             >
@@ -176,7 +186,7 @@ const AdminSchedule = () => {
                   <option value="5">Thứ 5</option>
                   <option value="6">Thứ 6</option>
                   <option value="7">Thứ 7</option>
-                  <option value="8">Thứ 7</option>
+                  <option value="8">Chủ nhật</option>
                 </select>
               </div>
               <div>
@@ -254,50 +264,150 @@ const AdminSchedule = () => {
         )}
 
         {/* Bảng danh sách lịch học */}
-        <table style={tableStyle}>
-          <thead style={{ background: "#34495e", color: "white" }}>
-            <tr>
-              <th style={{ padding: "12px" }}>Mã lịch học</th>
-              <th>Mã khóa học</th>
-              <th>Phòng</th>
-              <th>Thứ học</th>
-              <th>Tiết bắt đầu</th>
-              <th>Tiết kết thúc</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {schedules.map((s) => (
-              <tr
-                key={s.schedule_id}
-                style={{ borderBottom: "1px solid #eee", textAlign: "center" }}
-              >
-                <td style={{ padding: "12px", fontWeight: "bold" }}>
-                  {s.schedule_id}
-                </td>
-                <td>{s.course_id}</td>
-                <td>{s.room_id}</td>
-                <td>{s.dayOfWeek}</td>
-                <td>{s.start_slot}</td>
-                <td>{s.end_slot}</td>
-                <td>
-                  <button
-                    onClick={() => handleOpenUpdate(s)}
-                    style={btnActionStyle}
-                  >
-                    Sửa
-                  </button>
-                  <button
-                    onClick={() => handleDelete(s.schedule_id)}
-                    style={{ ...btnActionStyle, background: "#e74c3c" }}
-                  >
-                    Xóa
-                  </button>
-                </td>
+        <div style={{ overflowX: "auto", width: "100%" }}>
+          <table
+            style={{
+              ...tableStyle,
+              minWidth: "900px",
+            }}
+          >
+            <thead style={{ background: "#34495e", color: "white" }}>
+              <tr>
+                <th
+                  style={{
+                    padding: window.innerWidth < 768 ? "6px" : "12px",
+                    fontSize: window.innerWidth < 768 ? "12px" : "15px",
+                  }}
+                >
+                  Mã lịch học
+                </th>
+
+                <th
+                  style={{
+                    padding: window.innerWidth < 768 ? "6px" : "12px",
+                    fontSize: window.innerWidth < 768 ? "12px" : "15px",
+                  }}
+                >
+                  Mã khóa học
+                </th>
+
+                <th
+                  style={{
+                    padding: window.innerWidth < 768 ? "6px" : "12px",
+                    fontSize: window.innerWidth < 768 ? "12px" : "15px",
+                  }}
+                >
+                  Phòng
+                </th>
+
+                <th
+                  style={{
+                    padding: window.innerWidth < 768 ? "6px" : "12px",
+                    fontSize: window.innerWidth < 768 ? "12px" : "15px",
+                  }}
+                >
+                  Thứ học
+                </th>
+
+                <th
+                  style={{
+                    padding: window.innerWidth < 768 ? "6px" : "12px",
+                    fontSize: window.innerWidth < 768 ? "12px" : "15px",
+                  }}
+                >
+                  Tiết bắt đầu
+                </th>
+
+                <th
+                  style={{
+                    padding: window.innerWidth < 768 ? "6px" : "12px",
+                    fontSize: window.innerWidth < 768 ? "12px" : "15px",
+                  }}
+                >
+                  Tiết kết thúc
+                </th>
+
+                <th
+                  style={{
+                    padding: window.innerWidth < 768 ? "6px" : "12px",
+                    fontSize: window.innerWidth < 768 ? "12px" : "15px",
+                  }}
+                >
+                  Thao tác
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {schedules.map((s) => (
+                <tr
+                  key={s.schedule_id}
+                  style={{ borderBottom: "1px solid #eee", textAlign: "center" }}
+                >
+                  <td
+                    style={{
+                      padding: window.innerWidth < 768 ? "6px" : "12px",
+                      fontWeight: "bold",
+                      fontSize: window.innerWidth < 768 ? "12px" : "14px",
+                    }}
+                  >
+                    {s.schedule_id}
+                  </td>
+                  <td style={{ fontSize: window.innerWidth < 768 ? "12px" : "14px" }}>
+                    {s.course_id}
+                  </td>
+
+                  <td style={{ fontSize: window.innerWidth < 768 ? "12px" : "14px" }}>
+                    {s.room_id}
+                  </td>
+
+                  <td style={{ fontSize: window.innerWidth < 768 ? "12px" : "14px" }}>
+                    {s.dayOfWeek}
+                  </td>
+
+                  <td style={{ fontSize: window.innerWidth < 768 ? "12px" : "14px" }}>
+                    {s.start_slot}
+                  </td>
+
+                  <td style={{ fontSize: window.innerWidth < 768 ? "12px" : "14px" }}>
+                    {s.end_slot}
+                  </td>
+                  <td
+                    style={{
+                      padding: window.innerWidth < 768 ? "6px" : "12px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: window.innerWidth < 768 ? "column" : "row",
+                        gap: "5px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <button
+                        onClick={() => handleOpenUpdate(s)}
+                        style={btnActionStyle}
+                      >
+                        Sửa
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(s.schedule_id)}
+                        style={{
+                          ...btnActionStyle,
+                          background: "#e74c3c",
+                        }}
+                      >
+                        Xóa
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
@@ -341,6 +451,7 @@ const labelStyle = {
 const btnPrimaryStyle = {
   marginBottom: "20px",
   padding: "10px 20px",
+  width: window.innerWidth < 768 ? "100%" : "auto",
   background: "#8e44ad",
   color: "white",
   border: "none",
@@ -350,12 +461,13 @@ const btnPrimaryStyle = {
 };
 const btnActionStyle = {
   marginRight: "5px",
-  padding: "5px 12px",
   background: "#3498db",
   color: "white",
   border: "none",
   cursor: "pointer",
   borderRadius: "3px",
+  fontSize: window.innerWidth < 768 ? "12px" : "14px",
+  padding: window.innerWidth < 768 ? "4px 8px" : "5px 12px",
 };
 
 export default AdminSchedule;
