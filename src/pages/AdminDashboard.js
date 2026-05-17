@@ -1,129 +1,88 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AdminSchedule from "./AdminSchedule";
 import AdminRooms from "./AdminRooms";
 import AdminTeachers from "./AdminTeachers";
 import AdminSubjectsAndCourses from "./AdminSubjectsAndCourses";
 import AdminStudents from "./AdminStudent";
+import "./admin.css";
 
-const AdminDashboard = () => {
-  const navItemStyle = {
-    padding: "15px 10px",
-    borderBottom: "1px solid #2d3436",
-  };
-  const linkStyle = {
-    color: "white",
-    textDecoration: "none",
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    width: "100%",
-  };
-  const statCard = {
-    flex: 1,
-    background: "white",
-    padding: "25px",
-    borderRadius: "12px",
-    textAlign: "center",
-    boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-    borderTop: "6px solid #a29bfe",
-  };
-
-  const HomeContent = (
-    <div>
-      <h1 style={{ color: "#2c3e50", fontSize: "28px", marginBottom: "30px" }}>
-        ĐIỀU HÀNH ĐÀO TẠO
-      </h1>
-      <div style={{ display: "flex", gap: "25px", marginBottom: "40px" }}>
-        <div style={statCard}>
-          <h2 style={{ margin: 0, fontSize: "32px", color: "#a29bfe" }}>120</h2>
-          <p style={{ color: "#7f8c8d", fontWeight: "bold" }}>
-            Môn học hiện có
-          </p>
-        </div>
-        <div style={statCard}>
-          <h2 style={{ margin: 0, fontSize: "32px", color: "#a29bfe" }}>45</h2>
-          <p style={{ color: "#7f8c8d", fontWeight: "bold" }}>
-            Phòng học sẵn sàng
-          </p>
-        </div>
-        <div style={statCard}>
-          <h2 style={{ margin: 0, fontSize: "32px", color: "#a29bfe" }}>3</h2>
-          <p style={{ color: "#7f8c8d", fontWeight: "bold" }}>Lịch cần duyệt</p>
-        </div>
+const HomeContent = () => (
+  <div>
+    <h1 className="page-title" style={{ fontSize: "1.4rem" }}>
+      ĐIỀU HÀNH ĐÀO TẠO
+    </h1>
+    <div className="home-stat-cards">
+      <div className="home-stat-card">
+        <h2>120</h2>
+        <p>Môn học hiện có</p>
+      </div>
+      <div className="home-stat-card">
+        <h2>45</h2>
+        <p>Phòng học sẵn sàng</p>
+      </div>
+      <div className="home-stat-card">
+        <h2>3</h2>
+        <p>Lịch cần duyệt</p>
       </div>
     </div>
-  );
+  </div>
+);
+
+const AdminDashboard = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "Arial" }}>
-      <div
-        style={{
-          width: "280px",
-          background: "#1e1621",
-          color: "white",
-          padding: "20px",
-        }}
+    <div className="admin-layout">
+      {/* Mobile menu button */}
+      <button
+        className="menu-toggle"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-label="Toggle menu"
       >
-        <h2
-          style={{
-            textAlign: "center",
-            color: "#a29bfe",
-            marginBottom: "30px",
-          }}
-        >
-          QUẢN TRỊ VIÊN
-        </h2>
-        <hr style={{ borderColor: "#2d3436" }} />
-        <nav>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            <li style={navItemStyle}>
-              <Link to="/admin/subjects" style={linkStyle}>
-                📚 Quản lý môn học
+        {sidebarOpen ? "✕" : "☰"}
+      </button>
+
+      {/* Overlay for mobile */}
+      <div
+        className={`sidebar-overlay ${sidebarOpen ? "open" : ""}`}
+        onClick={closeSidebar}
+      />
+
+      {/* Sidebar */}
+      <div className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
+        <h2>QUẢN TRỊ VIÊN</h2>
+        <hr style={{ borderColor: "#2d3436", margin: "0 0 16px" }} />
+        <ul className="sidebar-nav">
+          {[
+            { to: "/admin/subjects", label: "📚 Quản lý môn học" },
+            { to: "/admin/schedule", label: "📅 Quản lý lịch học" },
+            { to: "/admin/rooms", label: "🏢 Quản lý phòng học" },
+            { to: "/admin/teachers", label: "👥 Quản lý giảng viên" },
+            { to: "/admin/students", label: "🎓 Quản lý sinh viên" },
+          ].map((item) => (
+            <li key={item.to}>
+              <Link to={item.to} onClick={closeSidebar}>
+                {item.label}
               </Link>
             </li>
-            <li style={navItemStyle}>
-              <Link to="/admin/schedule" style={linkStyle}>
-                📅 Quản lý lịch học
-              </Link>
-            </li>
-            <li style={navItemStyle}>
-              <Link to="/admin/rooms" style={linkStyle}>
-                🏢 Quản lý phòng học
-              </Link>
-            </li>
-            <li style={navItemStyle}>
-              <Link to="/admin/teachers" style={linkStyle}>
-                👥 Quản lý giảng viên
-              </Link>
-            </li>
-            <li style={navItemStyle}>
-              <Link to="/admin/students" style={linkStyle}>
-                👥 Quản lý sinh viên
-              </Link>
-            </li>
-          </ul>
-        </nav>
+          ))}
+        </ul>
         <button
+          className="sidebar-logout"
           onClick={() => (window.location.href = "/login")}
-          style={{
-            marginTop: "30px",
-            width: "100%",
-            padding: "12px",
-            background: "#c0392b",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            fontWeight: "bold",
-          }}
         >
           Đăng xuất
         </button>
       </div>
-      <div style={{ flex: 1, padding: "40px", background: "#f8f9fa" }}>
+
+      {/* Main content */}
+      <div className="admin-content">
         <Routes>
-          <Route path="/" element={HomeContent} />
-          <Route path="dashboard" element={HomeContent} />
+          <Route path="/" element={<HomeContent />} />
+          <Route path="dashboard" element={<HomeContent />} />
           <Route path="subjects" element={<AdminSubjectsAndCourses />} />
           <Route path="schedule" element={<AdminSchedule />} />
           <Route path="rooms" element={<AdminRooms />} />
@@ -134,4 +93,5 @@ const AdminDashboard = () => {
     </div>
   );
 };
+
 export default AdminDashboard;
