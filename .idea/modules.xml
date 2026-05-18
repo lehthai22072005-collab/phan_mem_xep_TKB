@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../phan_mem_xep_TKB_BE/Backend_schedule_course/Backend_schedule_course.iml" filepath="$PROJECT_DIR$/../phan_mem_xep_TKB_BE/Backend_schedule_course/Backend_schedule_course.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/timetable-frontend.iml" filepath="$PROJECT_DIR$/.idea/timetable-frontend.iml" />
     </modules>
   </component>
